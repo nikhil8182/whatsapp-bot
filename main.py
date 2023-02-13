@@ -21,7 +21,7 @@ async def home(request: Request):
         return {"error": response.text}
 
 
-@app.post("/webhook", methods=["POST"])
+@app.post("/webhook")
 async def webhook(request: Request):
     message = request.form.get('Body', '')
     sender = request.form.get('From', '')
