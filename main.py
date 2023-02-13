@@ -23,8 +23,8 @@ def home(request: Request):
 
 @app.route("/webhook", methods=["POST"])
 def webhook(request: Request):
-    message = request.values.get('Body', '')
-    sender = request.values.get('From', '')
+    message = request.form.get('Body', '')
+    sender = request.form.get('From', '')
     print(sender, " sent ", message)
     return "Succeess"
 
