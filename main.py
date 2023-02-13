@@ -23,8 +23,8 @@ async def home(request: Request):
 
 @app.post("/webhook")
 async def webhook(request: Request):
-    message = request.form.get('Body', '')
-    sender = request.form.get('From', '')
+    message = request.form.get('Body')
+    sender = request.form.get('From')
     print(sender, " sent ", message)
     return "Succeess"
 
