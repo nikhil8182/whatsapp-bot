@@ -1,26 +1,30 @@
-from flask import Flask
-# import /root/flask/whatsapp-bot/keys.py
-from twilio.rest import Client
+from fastapi import FastAPI, Request
+from fastapi.templating import Jinja2Templates
+import requests, keys
 
-app = Flask(__name__)
-# account_sid = keys.ssid
-# auth_token = keys.token
-# client = Client(account_sid, auth_token)
-# templates = ['Hai, This is Onyx Onwords Smart Assistant. This is my whatsapp number reply hear to talk to me!', ]
-#
-# message = client.messages.create(
-#     body=str(templates[0]),
-#     from_='whatsapp:+18144812393',
-#     to='whatsapp:+919095640275'
-# )
-#
-# print(message.sid)
+app = FastAPI()
+templates = Jinja2Templates(directory="templates")
+
+account_sid = keys.account_sid
+auth_token = keys.auth_token
 
 
 @app.route("/")
-def hello():
-    return "Hello, this is onwords WhatsApp API in beta version"
+def home(request: Request):
+    base_url = "https://api.twilio.com/2010-04-01/Accounts/"
+    messages_url = f"{base_url}{account_sid}/Messages.json"
+    response = requests.get(messages_url, auth=(account_sid, auth_token))
+    if response.status_code == 200:
+        messages = response.json()["messages"]
+        return templates.TemplateResponse("messages.html", {"request":request, "messages":messages})
+    else:
+        return {"error": response.text}
 
 
-if __name__ == "__main__":
-    app.run(host='139.144.4.238', port=80)
+@app.route("/webhook", methods=["POST"])
+def webhook(request: Request):
+    message = request.values.get('Body', '')
+    sender = request.values.get('From', '')
+    print(sender, " sent ", message)
+    return "Succeess"
+
