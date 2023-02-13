@@ -9,8 +9,8 @@ account_sid = keys.account_sid
 auth_token = keys.auth_token
 
 
-@app.route("/")
-def home(request: Request):
+@app.get("/")
+async def home(request: Request):
     base_url = "https://api.twilio.com/2010-04-01/Accounts/"
     messages_url = f"{base_url}{account_sid}/Messages.json"
     response = requests.get(messages_url, auth=(account_sid, auth_token))
@@ -21,8 +21,8 @@ def home(request: Request):
         return {"error": response.text}
 
 
-@app.route("/webhook", methods=["POST"])
-def webhook(request: Request):
+@app.post("/webhook", methods=["POST"])
+async def webhook(request: Request):
     message = request.form.get('Body', '')
     sender = request.form.get('From', '')
     print(sender, " sent ", message)
