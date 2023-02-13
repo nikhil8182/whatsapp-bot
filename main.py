@@ -1,12 +1,49 @@
 from fastapi import FastAPI, Request, Header
 from fastapi.templating import Jinja2Templates
 import requests, keys
+from twilio.rest import Client
 
 app = FastAPI()
 templates = Jinja2Templates(directory="templates")
 
 account_sid = keys.account_sid
 auth_token = keys.auth_token
+client = Client(account_sid, auth_token)
+
+
+def whatsapp(reply):
+    global from_
+    message = client.messages.create(
+        body=reply,
+        to=from_,
+        from_="whatsapp:+18144812393"
+    )
+
+
+url = "http://117.247.181.113:8000/"
+
+
+def device(room, sts):
+    device_data = requests.get(url).json()
+    for ids in device_data:
+        if room == ids['Room'].lower():
+            _url = url + str(ids['id']) + "/"
+            if sts == "on":
+                requests.put(_url, json={"Device_Status": True})
+            elif sts == "off":
+                requests.put(_url, json={"Device_Status": False})
+        # else:
+        #     print(f'{room} is not equal to {ids["Room"]}')
+
+
+def queryContains(a):
+    global body
+    for x in a:
+        if x in body:
+            # print(f'{x} is in {body}')
+            return True
+
+    return False
 
 
 @app.get("/")
@@ -16,9 +53,60 @@ async def home(request: Request):
     response = requests.get(messages_url, auth=(account_sid, auth_token))
     if response.status_code == 200:
         messages = response.json()["messages"]
-        return templates.TemplateResponse("messages.html", {"request":request, "messages":messages})
+        return templates.TemplateResponse("messages.html", {"request": request, "messages": messages})
     else:
         return {"error": response.text}
+
+
+global body, from_
+
+
+def reply(body, _from):
+    # if queryContains(['hai', 'hello', 'hi', 'hey']):
+    # reply = "hai, this is onyx!, from fast api"
+    # whatsapp(reply)
+    if queryContains(['off', 'turn', 'on']):
+        if queryContains(['light', 'tubelight', 'lights']):
+            if queryContains(['room', 'garage']):
+                if queryContains(['admin', 'green', 'garage']):
+                    if queryContains(['admin']):
+                        if queryContains(['on']):
+                            device('admin room', 'on')
+                            whatsapp(f'turrnig on admin room lights and query = {body}')
+                        elif queryContains(['off']):
+                            device('admin room', 'off')
+
+                            whatsapp('turning off admin room light')
+                        else:
+                            whatsapp('sorry, i don\'t know what to do in admin room')
+
+                    elif queryContains(['green']):
+                        if queryContains(['on']):
+                            device('green room', 'on')
+                            whatsapp('turrnig on green room lights')
+                        elif queryContains(['off']):
+                            device('green room', 'off')
+                            whatsapp('turning off green room light')
+                        else:
+                            whatsapp('sorry, i don\'t know what to do in green room')
+
+                    elif queryContains(['garage']):
+                        if queryContains(['on']):
+                            device('garage', 'on')
+                            whatsapp('turrnig on garage lights')
+                        elif queryContains(['off']):
+                            device('garage', 'off')
+                            whatsapp('turning off garage light')
+                        else:
+                            whatsapp('sorry, i don\'t know what to do in garage')
+        else:
+            a = requests.post("http://onwordsapi.com/", json={"command": body, "name": "", "gender": "str"}).json()
+            whatsapp(a["reply"])
+            # whatsapp('sorry, I don't recognise device')
+
+    else:
+        a = requests.post("http://onwordsapi.com/", json={"command": body, "name": "", "gender": "str"}).json()
+        whatsapp(a["reply"])
 
 
 @app.post("/webhook")
@@ -27,8 +115,9 @@ async def webhook(request: Request):
     data = await request.form()
     message_body = data.get("Body")
     message_from = data.get("From")
+    global body, from_
+    body = message_body.lower()
+    from_ = message_from.lower()
     # message_sid = request.form.get("MessageSid")
     # message_body = request.form.get("Body")
-    print(f"Message is {message_from} and body is {message_body}")
-    return "Succeess"
-
+    reply(message_body.lower(), message_from)
