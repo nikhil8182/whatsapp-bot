@@ -19,7 +19,7 @@ app = Flask(__name__)
 
 @app.route("/")
 def hello():
-    return "Hello, this is your WhatsApp API"
+    return "Hello, this is onwords WhatsApp API"
 
 
 if __name__ == "__main__":
