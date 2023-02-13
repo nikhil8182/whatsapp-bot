@@ -1,5 +1,5 @@
 from flask import Flask
-import keys
+import /root/flask/whatsapp-bot/keys.py
 from twilio.rest import Client
 
 app = Flask(__name__)
