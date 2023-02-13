@@ -23,4 +23,4 @@ def hello():
 
 
 if __name__ == "__main__":
-    app.run()
+    app.run(host='139.144.4.238', port=80)
