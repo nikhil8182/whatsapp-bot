@@ -1,4 +1,4 @@
-from fastapi import FastAPI, Request
+from fastapi import FastAPI, Request, Header
 from fastapi.templating import Jinja2Templates
 import requests, keys
 
@@ -23,8 +23,9 @@ async def home(request: Request):
 
 @app.post("/webhook")
 async def webhook(request: Request):
-    message = request.form.get('Body')
-    sender = request.form.get('From')
-    print(sender, " sent ", message)
+    # Handle the webhook request
+    message_sid = request.form.get("MessageSid")
+    message_body = request.form.get("Body")
+    print(f"Message is {message_sid} and body is {message_body}")
     return "Succeess"
 
