@@ -72,7 +72,7 @@ def reply(body, _from):
     try:
         userData = db.child(_from).get().val()
         print(userData)
-        if userData == "None":
+        if userData == None:
 
             user = False
         else:
