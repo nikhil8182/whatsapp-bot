@@ -72,10 +72,16 @@ def reply(body, _from):
     try:
         userData = db.child(_from).get().val()
         print(userData)
-        user = True
+        if userData == "None":
+
+            user = False
+        else:
+            user  =True
     except:
-        user = False
+       whatsapp('Can\'t handle the current laod. surver is too busy.\nError code is 12')
     print(user)
+
+
     if user:
         name = userData['name']
         print(name)
