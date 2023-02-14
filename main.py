@@ -81,7 +81,7 @@ def reply(body, _from):
         elif userData['pending'] =='yes or no':
             if body == "yes":
                 whatsapp('saving your name as {}'.format(userData['name']))
-                db.child(_from).update({'name': userData['name']})
+                db.child(_from).update({'name': userData['name'],'pending':''})
 
             elif body == "no":
                 whatsapp('ok, Please enter your name again')
