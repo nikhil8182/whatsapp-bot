@@ -68,10 +68,10 @@ global body, from_
 #     db.child("+919095640275").push({"name": "Nikhil"})
 
 def reply(body, _from):
-    print("inside the reply function >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>")
+    # print("inside the reply function >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>")
     try:
         userData = db.child(_from).get().val()
-        print(userData)
+        # print(userData)
         if userData == None:
 
             user = False
@@ -93,7 +93,7 @@ def reply(body, _from):
             user  =True
     except:
        whatsapp('Can\'t handle the current laod. surver is too busy.\nError code is 12')
-    print(user)
+    # print(user)
 
 
     if user:
@@ -102,7 +102,7 @@ def reply(body, _from):
     else:
         whatsapp('Hey,\nBefore answering that may I know what shall I call you?\nEnter your name:')
         db.child(_from).update({'name': False,'firstAskedQuestion':body})
-        print("returning")
+        # print("returning")
         return
 
 
