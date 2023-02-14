@@ -1,6 +1,6 @@
 from fastapi import FastAPI, Request, Header
 from fastapi.templating import Jinja2Templates
-import requests, keys
+import requests, keys, pyrebase
 from twilio.rest import Client
 
 app = FastAPI()
@@ -10,7 +10,7 @@ account_sid = keys.account_sid
 auth_token = keys.auth_token
 client = Client(account_sid, auth_token)
 
-databse = pyrebase.initialize_app(config)
+databse = pyrebase.initialize_app(keys.config)
 db = databse.database()
 # db = firebase.database()
 
