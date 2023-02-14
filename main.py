@@ -86,7 +86,7 @@ def reply(body, _from):
         name = userData['name']
         print(name)
     else:
-        whatsapp('Hey, Before answering that may I know what shall I call you?')
+        whatsapp('Hey, Before answering that may I know what shall I call you?\nEnter your name:')
         print("returning")
         return
 
