@@ -68,6 +68,7 @@ global body, from_
 #     db.child("+919095640275").push({"name": "Nikhil"})
 
 def reply(body, _from):
+    print("inside the reply function >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>")
     try:
         userData = db.child(_from).get().val()
         print(userData)
