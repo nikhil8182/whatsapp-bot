@@ -75,6 +75,17 @@ def reply(body, _from):
         if userData == None:
 
             user = False
+        elif userData['name'] == False:
+            whatsapp('May I rembember your name as {}\nreply with "yes" to save your name\n"no" to reenter'.format(body))
+            db.child(_from).update({'name': body,'pending':'yes or no'})
+        elif userData['pending'] =='yes or no':
+            if body == "yes":
+                whatsapp('saving your name as {}'.format(userData['name']))
+            elif body == "no":
+                whatsapp('ok, Please enter your name again')
+                db.child(_from).update({'name': False})
+            else:
+                whatsapp('Please reply with yes or no')
         else:
             user  =True
     except:
@@ -86,7 +97,8 @@ def reply(body, _from):
         name = userData['name']
         print(name)
     else:
-        whatsapp('Hey, Before answering that may I know what shall I call you?\nEnter your name:')
+        whatsapp('Hey,\nBefore answering that may I know what shall I call you?\nEnter your name:')
+        db.child(_from).update({'name': False})
         print("returning")
         return
 
