@@ -82,6 +82,7 @@ def reply(body, _from):
             if body == "yes":
                 whatsapp('saving your name as {}'.format(userData['name']))
                 db.child(_from).update({'name': userData['name'],'pending':'none'})
+                # if userData['firstAskedQuestion']
 
             elif body == "no":
                 whatsapp('ok, Please enter your name again')
@@ -140,7 +141,7 @@ def reply(body, _from):
                         else:
                             whatsapp('sorry, i don\'t know what to do in garage')
         else:
-            a = requests.post("http://onwordsapi.com/", json={"command": body, "name": "", "gender": "str"}).json()
+            a = requests.post("http://onwordsapi.com/", json={"command": body, "name": name, "gender": "str"}).json()
             whatsapp(a["reply"])
             # whatsapp('sorry, I don't recognise device')
 
