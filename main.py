@@ -2,14 +2,7 @@ from fastapi import FastAPI, Request, Header
 from fastapi.templating import Jinja2Templates
 import requests, keys
 from twilio.rest import Client
-# config = {
-#   'apiKey': "AIzaSyCcr9qTflrsOGcZhcU1h4tr6Kcp92ywmM8",
-#   'authDomain': "whatsapp-bot-82679.firebaseapp.com",
-#   'projectId': "whatsapp-bot-82679",
-#   'storageBucket': "whatsapp-bot-82679.appspot.com",
-#   'messagingSenderId': "941558673189",
-#   'appId': "1:941558673189:web:066117b4aabcbe30fc74cc"
-# }
+
 app = FastAPI()
 templates = Jinja2Templates(directory="templates")
 
@@ -17,7 +10,8 @@ account_sid = keys.account_sid
 auth_token = keys.auth_token
 client = Client(account_sid, auth_token)
 
-# firebase = pyrebase(config)
+databse = pyrebase.initialize_app(config)
+db = databse.database()
 # db = firebase.database()
 
 
@@ -74,10 +68,18 @@ global body, from_
 #     db.child("+919095640275").push({"name": "Nikhil"})
 
 def reply(body, _from):
-    # if queryContains(['hai', 'hello', 'hi', 'hey']):
-    # reply = "hai, this is onyx!, from fast api"
-    # whatsapp(reply)
-    # storeInDb()
+    try:
+        userData = db.child(_from).get().val()
+        user = True
+    except:
+        user = False
+    if user:
+        name = userData['name']
+    else:
+        whatsapp('Hey, Before answering that may I know what shall I call you?')
+        return
+
+
     if queryContains(['off', 'turn', 'on']):
         if queryContains(['light', 'tubelight', 'lights']):
             if queryContains(['room', 'garage']):
@@ -116,6 +118,7 @@ def reply(body, _from):
             a = requests.post("http://onwordsapi.com/", json={"command": body, "name": "", "gender": "str"}).json()
             whatsapp(a["reply"])
             # whatsapp('sorry, I don't recognise device')
+
 
     else:
         a = requests.post("http://onwordsapi.com/", json={"command": body, "name": "", "gender": "str"}).json()
