@@ -97,7 +97,7 @@ def reply(body, _from):
 
 
     if user:
-        name = userData['name']
+        name = userData['name'].capitalize()
         print(name)
     else:
         whatsapp('Hey,\nBefore answering that may I know what shall I call you?\nEnter your name:')
