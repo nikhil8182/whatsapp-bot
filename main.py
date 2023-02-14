@@ -116,11 +116,6 @@ def reply(body, _from):
             a = requests.post("http://onwordsapi.com/", json={"command": body, "name": "", "gender": "str"}).json()
             whatsapp(a["reply"])
             # whatsapp('sorry, I don't recognise device')
-    elif queryContains(['kamalika','kamali']):
-        if _from == "whatsapp:+919600612340":
-            whatsapp('Kamalika, A golden hearted girl with flattering eyes and moles🥰')
-        elif _from == "whatsapp:+918078850374":
-            whatsapp('kamalika, is an enemy of my boss maha')
 
     else:
         a = requests.post("http://onwordsapi.com/", json={"command": body, "name": "", "gender": "str"}).json()
