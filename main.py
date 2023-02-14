@@ -80,7 +80,7 @@ def reply(body, _from):
             db.child(_from).update({'name': body,'pending':'yes or no'})
         elif userData['pending'] =='yes or no':
             if body == "yes":
-                whatsapp('saving your name as {}'.format(userData['name']))
+                whatsapp('saving your name as {}'.format(userData['name'].capitalize()))
                 db.child(_from).update({'name': userData['name'],'pending':'none'})
                 # if userData['firstAskedQuestion']
 
