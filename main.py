@@ -70,13 +70,17 @@ global body, from_
 def reply(body, _from):
     try:
         userData = db.child(_from).get().val()
+        print(userData)
         user = True
     except:
         user = False
+    print(user)
     if user:
         name = userData['name']
+        print(name)
     else:
         whatsapp('Hey, Before answering that may I know what shall I call you?')
+        print("returning")
         return
 
 
