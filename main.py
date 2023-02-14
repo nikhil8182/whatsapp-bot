@@ -147,7 +147,7 @@ def reply(body, _from):
 
 
     else:
-        a = requests.post("http://onwordsapi.com/", json={"command": body, "name": "", "gender": "str"}).json()
+        a = requests.post("http://onwordsapi.com/", json={"command": body, "name": name, "gender": "str"}).json()
         whatsapp(a["reply"])
 
 
