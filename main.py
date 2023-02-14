@@ -76,7 +76,7 @@ def reply(body, _from):
 
             user = False
         elif userData['name'] == False:
-            whatsapp('May I rembember your name as {}\nreply with "yes" to save your name\n"no" to reenter'.format(body))
+            whatsapp('May I rembember your name as {}\nreply with "yes" to save your name\n"no" to reenter'.format(body.capitalize()))
             db.child(_from).update({'name': body,'pending':'yes or no'})
         elif userData['pending'] =='yes or no':
             if body == "yes":
