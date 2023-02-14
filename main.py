@@ -100,7 +100,7 @@ def reply(body, _from):
         print(name)
     else:
         whatsapp('Hey,\nBefore answering that may I know what shall I call you?\nEnter your name:')
-        db.child(_from).update({'name': False})
+        db.child(_from).update({'name': False,'firstAskedQuestion':body})
         print("returning")
         return
 
