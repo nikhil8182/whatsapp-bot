@@ -50,10 +50,10 @@ def queryContains(a):
     return False
 def checkOfficeServerStatus():
 
-    _temp = requests.get("http://office.onwordsapi.com",timeout=2)
+    _temp = requests.get("http://office.onwordsapi.com/sts/",timeout=2)
 
     if _temp.status_code == 200:
-        return False
+        return True
     else:
         return False
 
