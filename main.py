@@ -48,6 +48,17 @@ def queryContains(a):
             return True
 
     return False
+def checkOfficeServerStatus():
+
+    _temp = requests.get("http://office.onwordsapi.com")
+
+    if _temp.status_code == 200:
+        return True
+    else:
+        return False
+
+
+    # return
 
 
 @app.get("/")
@@ -147,8 +158,14 @@ def reply(body, _from):
 
 
     else:
-        a = requests.post("http://onwordsapi.com/", json={"command": body, "name": name, "gender": "str"}).json()
-        whatsapp(a["reply"])
+
+        if checkOfficeServerStatus():
+            a = requests.post("http://office.onwordsapi.com/",
+                              json={"command": body, "name": name, "gender": "str"}).json()
+            whatsapp(a["reply"])
+        else:
+            a = requests.post("http://onyx.onwordsapi.com/", json={"command": body, "name": name, "gender": "str"}).json()
+            whatsapp(a["reply"])
 
 
 
