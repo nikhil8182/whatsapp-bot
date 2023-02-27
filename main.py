@@ -49,13 +49,12 @@ def queryContains(a):
 
     return False
 def checkOfficeServerStatus():
-
-    _temp = requests.get("http://office.onwordsapi.com/sts/",timeout=2)
-
-    if _temp.status_code == 200:
+    try:
+        _temp = requests.get("http://office.onwordsapi.com/sts/",timeout=2)
         return True
-    else:
+    except:
         return False
+
 
 
     # return
