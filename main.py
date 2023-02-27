@@ -53,7 +53,7 @@ def checkOfficeServerStatus():
     _temp = requests.get("http://office.onwordsapi.com",timeout=2)
 
     if _temp.status_code == 200:
-        return True
+        return False
     else:
         return False
 
