@@ -159,7 +159,7 @@ def reply(body, _from):
     else:
 
         if checkOfficeServerStatus():
-            a = requests.post("http://office.onwordsapi.com/",
+            a = requests.post("http://office.onwordsapi.com/whatsapp",
                               json={"command": body, "name": name, "gender": "str","from":"whatsapp"}).json()
             whatsapp(a["reply"])
         else:
