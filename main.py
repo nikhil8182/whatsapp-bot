@@ -160,10 +160,11 @@ def reply(body, _from):
 
         if checkOfficeServerStatus():
             a = requests.post("http://office.onwordsapi.com/",
-                              json={"command": body, "name": name, "gender": "str"}).json()
+                              json={"command": body, "name": name, "gender": "str","from":"whatsapp"}).json()
             whatsapp(a["reply"])
         else:
-            a = requests.post("http://onyx.onwordsapi.com/", json={"command": body, "name": name, "gender": "str"}).json()
+            a = requests.post("http://onyx.onwordsapi.com/",
+                              json={"command": body, "name": name, "gender": "str"}).json()
             whatsapp(a["reply"])
 
 
