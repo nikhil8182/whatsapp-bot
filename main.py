@@ -1,3 +1,5 @@
+import json
+
 from fastapi import FastAPI, Request, Header
 from fastapi.templating import Jinja2Templates
 import requests, keys, pyrebase
@@ -158,7 +160,16 @@ def reply(body, _from):
 
     else:
         if "datatolinksmarthome" in body:
-            whatsapp(body)
+            try:
+                json_object = json.loads(body)
+
+                uid= json_object['datatolinksmarthome']
+                whatsapp(uid)
+            except ValueError:
+                whatsapp("error code 12, please report the bug to my admin")
+
+
+
 
 
         else:
