@@ -157,15 +157,20 @@ def reply(body, _from):
 
 
     else:
+        if body == "add me to the smart home":
+            whatsapp("enter your uid")
 
-        if checkOfficeServerStatus():
-            a = requests.post("http://office.onwordsapi.com/whatsapp",
-                              json={"command": body, "name": name, "gender": "str","from":"whatsapp"}).json()
-            whatsapp(a["reply"])
+
         else:
-            a = requests.post("http://onyx.onwordsapi.com/",
-                              json={"command": body, "name": name, "gender": "str"}).json()
-            whatsapp(a["reply"])
+
+            if checkOfficeServerStatus():
+                a = requests.post("http://office.onwordsapi.com/whatsapp",
+                                  json={"command": body, "name": name, "gender": "str","from":"whatsapp"}).json()
+                whatsapp(a["reply"])
+            else:
+                a = requests.post("http://onyx.onwordsapi.com/",
+                                  json={"command": body, "name": name, "gender": "str"}).json()
+                whatsapp(a["reply"])
 
 
 
