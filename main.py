@@ -157,7 +157,7 @@ def reply(body, _from):
 
 
     else:
-        if body == "add me to the smart home":
+        if body == "add me to the smart home" or body == "code 12":
             whatsapp("enter your uid")
 
 
